@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
-import { name } from './package.json';
+import { name, peerDependencies } from './package.json';
 
 // [https://vitejs.dev/config/](https://vitejs.dev/config/)
 export default defineConfig({
@@ -29,31 +29,11 @@ export default defineConfig({
 			fileName: (format) => `${name}.${format}.js`, // Output file name
 		},
 		rollupOptions: {
-			// Externalize dependencies that shouldn't be bundled into your library
-			external: [
-				'@radix-ui/react-slot',
-				'@tailwindcss/vite',
-				'class-variance-authority',
-				'clsx',
-				'lucide-react',
-				'react',
-				'react-dom',
-				'tailwind-merge',
-				'tailwindcss',
-			],
+			external: [...Object.keys(peerDependencies)],
 			output: {
-				// Global variables to use for externalized deps in UMD build
-				globals: {
-					react: 'React',
-					'react-dom': 'ReactDOM',
-					'@tailwindcss/vite': '@tailwindcss/vite',
-					'@radix-ui/react-slot': '@radix-ui/react-slot',
-					'class-variance-authority': 'class-variance-authority',
-					clsx: 'clsx',
-					'lucide-react': 'lucide-react',
-					'tailwind-merge': 'tailwind-merge',
-					tailwindcss: 'tailwindcss',
-				},
+				inlineDynamicImports: false,
+				// preserveModules: true,
+				exports: 'named',
 			},
 		},
 		sourcemap: true, // Generate sourcemaps

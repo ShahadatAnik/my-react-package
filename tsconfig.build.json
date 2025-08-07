@@ -1,0 +1,13 @@
+{
+	"extends": "./tsconfig.json",
+	"include": ["./src/**/*"],
+	"exclude": ["**/__mocks__/**/*", "**/__tests__/**/*", "**/*.test.*"],
+	"compilerOptions": {
+		"outDir": "./dist",
+		"declaration": true,
+		"declarationMap": true,
+		"emitDeclarationOnly": true,
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.build.tsbuildinfo",
+		"jsx": "react-jsx"
+	}
+}
