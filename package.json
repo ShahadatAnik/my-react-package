@@ -17,7 +17,7 @@
 		"build:types": "tsc -p tsconfig.build.json",
 		"build:umd": "vite build --config vite.umd.config.js",
 		"build:es": "vite build --config vite.es.config.js",
-		"build:lib": "pnpm build:types && pnpm build && pnpm build:styles",
+		"build:lib": "pnpm build && pnpm build:types && pnpm build:styles",
 		"prepare": "pnpm build:lib",
 		"prepublishOnly": "pnpm build:lib",
 		"test": "echo \"No tests specified\" && exit 0",
