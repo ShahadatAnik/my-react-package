@@ -1,9 +1,9 @@
-import MyAwesomeComponent from './components/MyAwesomeComponent';
+import { Button } from '@/components/ui/button';
 
 const App = () => {
 	return (
 		<div>
-			<MyAwesomeComponent onButtonClick={() => alert('Button clicked')} />
+			<Button onClick={() => alert('Button clicked')} />
 		</div>
 	);
 };

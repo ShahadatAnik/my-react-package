@@ -3,22 +3,27 @@
 	"private": false,
 	"version": "0.0.2",
 	"type": "module",
-	"main": "./dist/my-react-package.umd.js",
-	"module": "./dist/my-react-package.es.js",
+	"main": "./dist/anik-react-ui-lib.umd.js",
+	"module": "./dist/anik-react-ui-lib.es.js",
 	"types": "./dist/index.d.ts",
+	"sideEffects": false,
 	"files": [
 		"dist"
 	],
-	"exports": {
-		".": {
-			"import": "./dist/my-react-package.es.js",
-			"require": "./dist/my-react-package.umd.js",
-			"types": "./dist/index.d.ts"
-		}
-	},
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc -b && vite build",
+		"build": "tsc -b && vite build && pnpm build:styles",
+		"build:styles": "npx @tailwindcss/cli -i ./src/index.css -o ./dist/styles.css --minify",
+		"build:types": "tsc -p tsconfig.build.json",
+		"build:umd": "vite build --config vite.umd.config.js",
+		"build:es": "vite build --config vite.es.config.js",
+		"build:lib": "pnpm build:types && pnpm build && pnpm build:styles",
+		"prepare": "pnpm build:lib",
+		"prepublishOnly": "pnpm build:lib",
+		"test": "echo \"No tests specified\" && exit 0",
+		"test:watch": "echo \"No tests specified\" && exit 0",
+		"format": "prettier --write .",
+		"format:check": "prettier --check .",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
 		"preview": "vite preview"
 	},
@@ -35,6 +40,7 @@
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.29.0",
+		"@tailwindcss/cli": "^4.1.11",
 		"@types/node": "^24.0.4",
 		"@types/react": "^19.1.8",
 		"@types/react-dom": "^19.1.6",
@@ -47,6 +53,7 @@
 		"tw-animate-css": "^1.3.4",
 		"typescript": "~5.8.3",
 		"typescript-eslint": "^8.34.1",
-		"vite": "^7.0.0"
+		"vite": "^7.0.0",
+		"vite-plugin-dts": "^4.5.4"
 	}
 }
