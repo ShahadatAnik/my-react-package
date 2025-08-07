@@ -5,19 +5,31 @@
 	"type": "module",
 	"main": "./dist/anik-react-ui-lib.umd.js",
 	"module": "./dist/anik-react-ui-lib.es.js",
-	"types": "./dist/index.d.ts",
+	"types": "./dist/anik-react-ui-lib.d.ts",
+	"style": "./dist/styles.css",
 	"sideEffects": false,
 	"files": [
 		"dist"
 	],
+	"exports": {
+		".": {
+			"import": "./dist/anik-react-ui-lib.es.js"
+		},
+		"./components": {
+			"import": "./dist/components/*.es.js"
+		},
+		"./styles.css": {
+			"default": "./dist/styles.css"
+		}
+	},
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc -b && vite build && pnpm build:styles ",
+		"build": "vite build",
 		"build:styles": "npx @tailwindcss/cli -i ./src/index.css -o ./dist/styles.css --minify",
 		"build:types": "tsc -p tsconfig.build.json",
 		"build:umd": "vite build --config vite.umd.config.js",
 		"build:es": "vite build --config vite.es.config.js",
-		"build:lib": "pnpm build && pnpm build:types && pnpm build:styles",
+		"build:lib": "pnpm build && pnpm build:types",
 		"prepare": "pnpm build:lib",
 		"prepublishOnly": "pnpm build:lib",
 		"test": "echo \"No tests specified\" && exit 0",

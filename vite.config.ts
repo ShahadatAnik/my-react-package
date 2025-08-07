@@ -1,10 +1,13 @@
 // vite.config.ts
-import path from 'path';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 import { name, peerDependencies } from './package.json';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // [https://vitejs.dev/config/](https://vitejs.dev/config/)
 export default defineConfig({
@@ -12,21 +15,25 @@ export default defineConfig({
 		react(),
 		dts({
 			include: ['src/**/*'],
+			entryRoot: 'src',
+			outDir: 'dist',
+			rollupTypes: true,
+			tsconfigPath: './tsconfig.app.json',
 		}),
 		tailwindcss(),
 	],
 	resolve: {
 		alias: {
-			'@': path.resolve(__dirname, './src'),
+			'@': resolve(__dirname, './src'),
 		},
 	},
 	build: {
 		lib: {
-			// Entry point for the library
 			entry: 'src/index.ts',
-			name: name, // Global variable name for UMD build
-			formats: ['es', 'umd'], // Build both ES Module and UMD formats
-			fileName: (format) => `${name}.${format}.js`, // Output file name
+			name,
+			formats: ['es', 'umd'],
+			fileName: (format) => `${name}.${format}.js`,
+			cssFileName: 'styles',
 		},
 		rollupOptions: {
 			external: [...Object.keys(peerDependencies)],
